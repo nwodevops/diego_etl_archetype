@@ -67,6 +67,8 @@ if (!exists(SALIDA_DF, envir = globalenv())) {
 }
 
 df_salida <- get(SALIDA_DF, envir = globalenv())
+# Sello de corrida (no forma parte de la logica pristine)
+df_salida$FE_CARGA <- Sys.time()
 message("Salida de logica: ", nrow(df_salida), " filas x ", ncol(df_salida), " columnas")
 
 # ---------------------------------------------------------------------------

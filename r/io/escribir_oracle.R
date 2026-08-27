@@ -50,7 +50,7 @@ escribir_oracle <- function(df,
   out <- df
   out[] <- lapply(out, function(x) if (is.factor(x)) as.character(x) else x)
   for (nm in names(out)) {
-    if (inherits(out[[nm]], "Date")) {
+    if (inherits(out[[nm]], "POSIXt") || inherits(out[[nm]], "Date")) {
       out[[nm]] <- format(out[[nm]], "%Y-%m-%d %H:%M:%S")
     }
   }

@@ -36,11 +36,15 @@ UF_SIG_ID, UF_TXESTADO, UF_UBIGEO_INAF, TXUBIGEO_INEI, UF_DPTO, UF_PROV, UF_DIST
 Data.frame **`Acciones_Ubigeo`** (`SALIDA_DF` en `main.R`) → Oracle
 `APP|REPOCSEP.RPT_ACCIONES_UBIGEO` vía `DB_ORA_REPO_*` (+ `DB_ORA_REPO_SCHEMA`).
 
-15 columnas: TXCOORDINACION, SUBSECTOR, TXCUC, FEFIN, IDADMINISTRADO, IDUF_SIG,
+15 columnas de negocio + **`FE_CARGA`** (sello de corrida, lo añade `r/main.R`
+con `Sys.time()`; no está en la lógica pristine):
+
+TXCOORDINACION, SUBSECTOR, TXCUC, FEFIN, IDADMINISTRADO, IDUF_SIG,
 TXTIPSUP, TXFUENTE, TXACCION, FGSUP_ORIENTATIVA, TXUBIGEO_INEI, TXUBIGEO_INAF,
-TXDEPARTAMENTO, TXPROVINCIA, TXDISTRITO.
+TXDEPARTAMENTO, TXPROVINCIA, TXDISTRITO, FE_CARGA.
 
 DDL: `docs/rpt_acciones_ubigeo.sql` / `docs/rpt_acciones_ubigeo_local.sql`.
+Tablas ya existentes: `ALTER TABLE ... ADD (FE_CARGA DATE)` (ver comentarios en el DDL).
 
 ## Reglas
 
