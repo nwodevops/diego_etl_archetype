@@ -113,26 +113,11 @@ def write_script(root: Path, statements: list[tuple[str, str]]) -> Path:
     return out
 
 
-def find_h2_jar(root: Path) -> Path:
-    lib = root / "h2" / "lib"
-    jars = sorted(lib.glob("h2-*.jar"))
-    if jars:
-        return jars[0]
-    fallback = lib / "h2.jar"
-    if fallback.is_file():
-        return fallback
-    raise FileNotFoundError(f"No se encuentra h2-*.jar en {lib}")
-
-
 def apply_h2(root: Path, variables: dict[str, str], statements: list[tuple[str, str]]) -> None:
     if not statements:
         return
-    try:
-        import jaydebeapi
-    except ImportError as exc:
-        raise SystemExit(
-            "Falta jaydebeapi. Instala: pip install -r python/requirements.txt"
-        ) from exc
+
+    from jdbc_util import connect as jdbc_connect
 
     url = variables.get("DB_H2_URL") or ""
     user = variables.get("DB_H2_USERNAME") or "sa"
@@ -140,8 +125,7 @@ def apply_h2(root: Path, variables: dict[str, str], statements: list[tuple[str, 
     if not url:
         raise ValueError("DB_H2_URL vacía en project-config.json")
 
-    jar = str(find_h2_jar(root))
-    conn = jaydebeapi.connect(H2_DRIVER, url, [user, password], jar)
+    conn = jdbc_connect(H2_DRIVER, url, user, password, root)
     try:
         cur = conn.cursor()
         try:

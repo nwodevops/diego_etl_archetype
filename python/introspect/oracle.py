@@ -1,9 +1,18 @@
-"""Introspección Oracle: ALL_TAB_COLUMNS. No extrae filas."""
+"""Introspección Oracle: ALL_TAB_COLUMNS. No extrae filas.
+
+Usa JDBC (ojdbc11.jar) igual que Hop/R, porque python-oracledb en modo
+thin no soporta Oracle 23ai+ (DPY-3015, password verifier 0x939).
+"""
 
 from __future__ import annotations
 
-from config import require_live_conn
+from pathlib import Path
+
+from config import project_root, require_live_conn
 from h2_ddl import Column, map_h2_type, sanitize_ident
+from jdbc_util import connect as jdbc_connect
+
+ORA_DRIVER = "oracle.jdbc.OracleDriver"
 
 
 def _split_object(object_name: str) -> tuple[str, str]:
@@ -15,14 +24,14 @@ def _split_object(object_name: str) -> tuple[str, str]:
     return parts[0].upper(), parts[1].upper()
 
 
-def introspect(source: dict, variables: dict[str, str], root=None) -> list[Column]:
-    try:
-        import oracledb
-    except ImportError as exc:
-        raise SystemExit(
-            "Falta oracledb. Instala: pip install -r python/requirements.txt"
-        ) from exc
+def _jdbc_url(cv: dict[str, str]) -> str:
+    if cv["url"]:
+        return cv["url"]
+    port = int(cv["port"]) if str(cv["port"]).isdigit() else 1521
+    return f"jdbc:oracle:thin:@//{cv['host']}:{port}/{cv['database']}"
 
+
+def introspect(source: dict, variables: dict[str, str], root=None) -> list[Column]:
     connection = source.get("connection") or "oracle_sisud"
     object_name = source.get("object")
     if not object_name:
@@ -30,27 +39,25 @@ def introspect(source: dict, variables: dict[str, str], root=None) -> list[Colum
 
     owner, table = _split_object(object_name)
     cv = require_live_conn(connection, variables)
-    port = int(cv["port"]) if str(cv["port"]).isdigit() else 1521
+    url = _jdbc_url(cv)
+    root = Path(root) if root else project_root()
 
-    conn = oracledb.connect(
-        user=cv["username"],
-        password=cv["password"],
-        host=cv["host"],
-        port=port,
-        service_name=cv["database"],
-    )
+    conn = jdbc_connect(ORA_DRIVER, url, cv["username"], cv["password"], root)
     try:
-        with conn.cursor() as cur:
+        cur = conn.cursor()
+        try:
             cur.execute(
                 """
                 SELECT COLUMN_NAME, DATA_TYPE, DATA_SCALE
                 FROM ALL_TAB_COLUMNS
-                WHERE OWNER = :owner AND TABLE_NAME = :tname
+                WHERE OWNER = ? AND TABLE_NAME = ?
                 ORDER BY COLUMN_ID
                 """,
-                {"owner": owner, "tname": table},
+                (owner, table),
             )
             rows = cur.fetchall()
+        finally:
+            cur.close()
     finally:
         conn.close()
 
