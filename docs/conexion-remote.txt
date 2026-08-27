@@ -1,0 +1,15 @@
+#input
+Hot : odaprod-scan
+Database : oefabd
+Port: 1534
+User : CSEPDV
+Pass: vWqFlNPWZQ0Fov
+
+jdbc:oracle:thin:@//odaprod-scan:1534/oefabd
+
+#output
+Hot : 10.6.0.15
+Database : dvoefacore
+Port: 1532
+User : REPOCSEP
+Pass: desarrollo24

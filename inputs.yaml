@@ -1,0 +1,21 @@
+# Manifiesto de fuentes STG. Python (python/create_stg.py) lo lee y crea
+# CREATE TABLE en H2. Hop extrae las filas. No commitear keys/passwords.
+#
+# type: oracle | mysql | sheets
+# Contrato: .agents/skills/oefa-hop-etl/inputs.example.yaml
+
+sources:
+  - stg_table: STG_ORA_ACCIONES
+    type: oracle
+    connection: oracle_sisud
+    object: SISUD.CSEP_ACCIONES_VIEW
+
+  - stg_table: STG_ORA_ADMINUF
+    type: oracle
+    connection: oracle_sisud
+    object: SISUD.CSEP_ADMINUF_VIEW
+
+  - stg_table: STG_ORA_DOCUMENTOS
+    type: oracle
+    connection: oracle_sisud
+    object: SISUD.CSEP_DOCUMENTOS_VIEW

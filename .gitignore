@@ -1,0 +1,7 @@
+client_secret.json
+*.xlsx
+.~*
+h2/sql/02_stg.sql
+__pycache__/
+*.pyc
+.venv/
