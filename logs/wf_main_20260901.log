@@ -1,0 +1,53 @@
+[mar 01/09/2026 12:03:53.16] Inicio: mar 01/09/2026 12:03:53.16
+[mar 01/09/2026 12:03:53.19] HOP_HOME=D:\Eder\hop
+[mar 01/09/2026 12:03:53.19] PROJECT_HOME=D:\Eder\workspace_etl_oefa\diego_etl_archetype
+[mar 01/09/2026 12:03:53.20] Ejecutando D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf
+===[Environment Settings - hop-run.bat]===================================
+
+Java identified as "C:\Program Files\Java\jdk-21.0.11\bin\java"
+
+HOP_OPTIONS="-Xmx2048m" -DHOP_AUDIT_FOLDER=.\audit -DHOP_PLATFORM_OS=Windows -DHOP_PLATFORM_RUNTIME=Run -DHOP_AUTO_CREATE_CONFIG=Y --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/sun.nio.cs=ALL-UNNAMED --add-opens java.base/sun.security.action=ALL-UNNAMED --add-opens java.base/sun.util.calendar=ALL-UNNAMED --add-opens java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-exports java.base/sun.nio.ch=ALL-UNNAMED
+
+
+Consolidated parameters to pass to HopRun are
+--project=diego_etl_archetype   --file="D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf"   --level=Basic   --runconfig=local
+
+Command to start HopRun will be:
+"C:\Program Files\Java\jdk-21.0.11\bin\java" -classpath lib\core\*;lib\beam\*;lib\swt\win64\* -Djava.library.path=lib\core;lib\beam "-Xmx2048m" -DHOP_AUDIT_FOLDER=.\audit -DHOP_PLATFORM_OS=Windows -DHOP_PLATFORM_RUNTIME=Run -DHOP_AUTO_CREATE_CONFIG=Y --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/sun.nio.cs=ALL-UNNAMED --add-opens java.base/sun.security.action=ALL-UNNAMED --add-opens java.base/sun.util.calendar=ALL-UNNAMED --add-opens java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-exports java.base/sun.nio.ch=ALL-UNNAMED org.apache.hop.run.HopRun --project=diego_etl_archetype   --file="D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf"   --level=Basic   --runconfig=local
+
+===[Starting HopRun]=========================================================
+2026/09/01 12:04:03 - HopRun - Enabling project 'diego_etl_archetype'
+2026/09/01 12:04:03 - HopRun - Starting workflow: D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf
+2026/09/01 12:04:03 - wf_main - Start of workflow execution
+2026/09/01 12:04:03 - wf_main - Starting action [Start]
+2026/09/01 12:04:03 - wf_main - Finished action [Start] (result=[true])
+2026/09/01 12:04:03 - wf_main - Starting action [Reset H2 clean]
+2026/09/01 12:04:03 - Reset H2 clean - Running on platform : Windows 11
+2026/09/01 12:04:03 - Reset H2 clean - Executing command : cmd.exe /C "D:\Eder\workspace_etl_oefa\diego_etl_archetype\h2\scripts\reset_and_create.bat"
+2026/09/01 12:04:04 - Reset H2 clean - (stdout) === Stop H2 (limpia mem) ===
+2026/09/01 12:04:04 - Reset H2 clean - (stdout) Deteniendo H2 Server si existe...
+2026/09/01 12:04:06 - Reset H2 clean - (stdout) Stop H2 listo
+2026/09/01 12:04:06 - Reset H2 clean - (stdout) === Start H2 TCP (mem:csep) ===
+2026/09/01 12:04:06 - Reset H2 clean - (stdout) H2 ya esta arriba en puerto 9092
+2026/09/01 12:04:06 - Reset H2 clean - (stdout) === Aplicar DDL (sql\00_reset.sql) ===
+2026/09/01 12:04:06 - Reset H2 clean - (stdout) === Aplicar DDL (sql\01_schema.sql) ===
+2026/09/01 12:04:07 - Reset H2 clean - (stdout) === Reset+Create OK ===
+2026/09/01 12:04:07 - Reset H2 clean - (stdout) Pipelines / R usan: jdbc:h2:tcp://localhost:9092/mem:csep;DB_CLOSE_DELAY=-1;MODE=Oracle;DATABASE_TO_UPPER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_RECONNECT=TRUE
+2026/09/01 12:04:07 - wf_main - Finished action [Reset H2 clean] (result=[true])
+2026/09/01 12:04:07 - wf_main - Starting action [Python create STG]
+2026/09/01 12:04:07 - Python create STG - Running on platform : Windows 11
+2026/09/01 12:04:07 - Python create STG - Executing command : cmd.exe /C "D:\Eder\workspace_etl_oefa\diego_etl_archetype\python\run_create_stg.bat"
+2026/09/01 12:04:12 - Python create STG - (stdout) STG_ORA_ACCIONES: 57 columnas (oracle)
+2026/09/01 12:04:12 - Python create STG - (stdout) STG_ORA_ADMINUF: 26 columnas (oracle)
+2026/09/01 12:04:12 - Python create STG - (stdout) STG_ORA_DOCUMENTOS: 32 columnas (oracle)
+2026/09/01 12:04:12 - Python create STG - (stdout) escrito: h2\sql\02_stg.sql
+2026/09/01 12:04:12 - Python create STG - (stdout) H2 CREATE STG_ORA_ACCIONES
+2026/09/01 12:04:12 - Python create STG - (stdout) H2 CREATE STG_ORA_ADMINUF
+2026/09/01 12:04:12 - Python create STG - (stdout) H2 CREATE STG_ORA_DOCUMENTOS
+2026/09/01 12:04:12 - Python create STG - (stdout) aplicado H2: 3 tablas
+2026/09/01 12:04:12 - wf_main - Finished action [Python create STG] (result=[true])
+2026/09/01 12:04:12 - wf_main - Starting action [Load Acciones]
+2026/09/01 12:04:12 - Load Acciones - Using run configuration [local]
+2026/09/01 12:04:13 - pl_stage_acciones - Executing this pipeline using the Local Pipeline Engine with run configuration 'local'
+2026/09/01 12:04:13 - pl_stage_acciones - Execution started for pipeline [pl_stage_acciones]
+2026/09/01 12:04:14 - Table output H2.0 - Connected to database [h2] (commit=5000)

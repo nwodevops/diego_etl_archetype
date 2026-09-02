@@ -1,141 +1,141 @@
 {
-  "metadataBaseFolder": "${PROJECT_HOME}/metadata",
-  "unitTestsBasePath": "${PROJECT_HOME}",
-  "dataSetsCsvFolder": "${PROJECT_HOME}/datasets",
-  "enforcingExecutionInHome": true,
-  "parentProjectName": "default",
-  "config": {
-    "variables": [
-      {
-        "name": "SCRIPT_EXT",
-        "value": "sh",
-        "description": "Extension scripts shell (Linux local)"
-      },
-      {
-        "name": "DB_H2_URL",
-        "value": "jdbc:h2:tcp://localhost:9092/mem:csep;DB_CLOSE_DELAY=-1;MODE=Oracle;DATABASE_TO_UPPER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_RECONNECT=TRUE",
-        "description": "JDBC URL H2 Local - BD mem:csep"
-      },
-      {
-        "name": "DB_H2_HOST",
-        "value": "localhost",
-        "description": "Host H2 Local"
-      },
-      {
-        "name": "DB_H2_PORT",
-        "value": "9092",
-        "description": "Puerto H2 Local"
-      },
-      {
-        "name": "DB_H2_DATABASE",
-        "value": "mem:csep",
-        "description": "Base H2 Local"
-      },
-      {
-        "name": "DB_H2_USERNAME",
-        "value": "sa",
-        "description": "Usuario H2 Local"
-      },
-      {
-        "name": "DB_H2_PASSWORD",
-        "value": "csep",
-        "description": "Password H2 Local"
-      },
-      {
-        "name": "DB_ORA_SISUD_URL",
-        "value": "jdbc:oracle:thin:@//localhost:1525/CSEP",
-        "description": "JDBC URL Oracle input Local (SISUD / BD CSEP)"
-      },
-      {
-        "name": "DB_ORA_SISUD_HOST",
-        "value": "localhost",
-        "description": "Host Oracle SISUD Local"
-      },
-      {
-        "name": "DB_ORA_SISUD_PORT",
-        "value": "1525",
-        "description": "Puerto Oracle SISUD Local"
-      },
-      {
-        "name": "DB_ORA_SISUD_DATABASE",
-        "value": "CSEP",
-        "description": "Service Oracle SISUD Local"
-      },
-      {
-        "name": "DB_ORA_SISUD_USERNAME",
-        "value": "SISUD",
-        "description": "Usuario Oracle SISUD Local"
-      },
-      {
-        "name": "DB_ORA_SISUD_PASSWORD",
-        "value": "sisud2026",
-        "description": "Password Oracle SISUD Local"
-      },
-      {
-        "name": "DB_ORA_REPO_URL",
-        "value": "jdbc:oracle:thin:@//localhost:1524/BD_CURSOR",
-        "description": "JDBC URL Oracle output Local (BD_CURSOR)"
-      },
-      {
-        "name": "DB_ORA_REPO_HOST",
-        "value": "localhost",
-        "description": "Host Oracle output Local"
-      },
-      {
-        "name": "DB_ORA_REPO_PORT",
-        "value": "1524",
-        "description": "Puerto Oracle output Local"
-      },
-      {
-        "name": "DB_ORA_REPO_DATABASE",
-        "value": "BD_CURSOR",
-        "description": "Service Oracle output Local"
-      },
-      {
-        "name": "DB_ORA_REPO_USERNAME",
-        "value": "app",
-        "description": "Usuario Oracle output Local"
-      },
-      {
-        "name": "DB_ORA_REPO_PASSWORD",
-        "value": "app2026",
-        "description": "Password Oracle output Local"
-      },
-      {
-        "name": "DB_ORA_REPO_SCHEMA",
-        "value": "APP",
-        "description": "Schema Oracle output Local (user app)"
-      },
-      {
-        "name": "DB_MYSQL_URL",
-        "value": "jdbc:mysql://<HOST>:<PUERTO>/<DB>",
-        "description": "JDBC URL MySQL (completar si se usa)"
-      },
-      {
-        "name": "DB_MYSQL_HOST",
-        "value": "<HOST>",
-        "description": "Host MySQL"
-      },
-      {
-        "name": "DB_MYSQL_PORT",
-        "value": "<PUERTO>",
-        "description": "Puerto MySQL"
-      },
-      {
-        "name": "DB_MYSQL_DATABASE",
-        "value": "<DB>",
-        "description": "Database MySQL"
-      },
-      {
-        "name": "DB_MYSQL_USERNAME",
-        "value": "<USUARIO>",
-        "description": "Usuario MySQL"
-      },
-      {
-        "name": "DB_MYSQL_PASSWORD",
-        "value": "<PASSWORD>",
-        "description": "Password MySQL"
-      }
-    ]
-  }
+    "metadataBaseFolder":  "${PROJECT_HOME}/metadata",
+    "unitTestsBasePath":  "${PROJECT_HOME}",
+    "dataSetsCsvFolder":  "${PROJECT_HOME}/datasets",
+    "enforcingExecutionInHome":  true,
+    "parentProjectName":  "default",
+    "config":  {
+                   "variables":  [
+                                     {
+                                         "name":  "SCRIPT_EXT",
+                                         "value":  "bat",
+                                         "description":  "Extension scripts shell (Windows remote)"
+                                     },
+                                     {
+                                         "name":  "DB_H2_URL",
+                                         "value":  "jdbc:h2:tcp://localhost:9092/mem:csep;DB_CLOSE_DELAY=-1;MODE=Oracle;DATABASE_TO_UPPER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_RECONNECT=TRUE",
+                                         "description":  "JDBC URL H2 - BD mem:csep (in-memory, igual en todos los entornos)"
+                                     },
+                                     {
+                                         "name":  "DB_H2_HOST",
+                                         "value":  "localhost",
+                                         "description":  "Host H2 (in-memory)"
+                                     },
+                                     {
+                                         "name":  "DB_H2_PORT",
+                                         "value":  "9092",
+                                         "description":  "Puerto H2 (in-memory)"
+                                     },
+                                     {
+                                         "name":  "DB_H2_DATABASE",
+                                         "value":  "mem:csep",
+                                         "description":  "Base H2 (in-memory)"
+                                     },
+                                     {
+                                         "name":  "DB_H2_USERNAME",
+                                         "value":  "sa",
+                                         "description":  "Usuario H2"
+                                     },
+                                     {
+                                         "name":  "DB_H2_PASSWORD",
+                                         "value":  "csep",
+                                         "description":  "Password H2"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_URL",
+                                         "value":  "jdbc:oracle:thin:@//odaprod-scan:1534/oefabd",
+                                         "description":  "JDBC URL Oracle SISUD Remote (odaprod-scan)"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_HOST",
+                                         "value":  "odaprod-scan",
+                                         "description":  "Host Oracle SISUD Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_PORT",
+                                         "value":  "1534",
+                                         "description":  "Puerto Oracle SISUD Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_DATABASE",
+                                         "value":  "oefabd",
+                                         "description":  "Service Oracle SISUD Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_USERNAME",
+                                         "value":  "CSEPDV",
+                                         "description":  "Usuario Oracle SISUD Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_SISUD_PASSWORD",
+                                         "value":  "vWqFlNPWZQ0Fov",
+                                         "description":  "Password Oracle SISUD Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_URL",
+                                         "value":  "jdbc:oracle:thin:@//10.6.0.15:1532/dvoefacore",
+                                         "description":  "JDBC URL Oracle REPOCSEP Remote (dvoefacore)"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_HOST",
+                                         "value":  "10.6.0.15",
+                                         "description":  "Host Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_PORT",
+                                         "value":  "1532",
+                                         "description":  "Puerto Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_DATABASE",
+                                         "value":  "dvoefacore",
+                                         "description":  "Service Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_USERNAME",
+                                         "value":  "REPOCSEP",
+                                         "description":  "Usuario Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_PASSWORD",
+                                         "value":  "desarrollo24",
+                                         "description":  "Password Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_ORA_REPO_SCHEMA",
+                                         "value":  "REPOCSEP",
+                                         "description":  "Schema Oracle REPOCSEP Remote"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_URL",
+                                         "value":  "jdbc:mysql://\u003cHOST\u003e:\u003cPUERTO\u003e/\u003cDB\u003e",
+                                         "description":  "JDBC URL MySQL REMOTO (completar si se usa)"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_HOST",
+                                         "value":  "\u003cHOST\u003e",
+                                         "description":  "Host MySQL REMOTO"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_PORT",
+                                         "value":  "\u003cPUERTO\u003e",
+                                         "description":  "Puerto MySQL REMOTO"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_DATABASE",
+                                         "value":  "\u003cDB\u003e",
+                                         "description":  "Database MySQL REMOTO"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_USERNAME",
+                                         "value":  "\u003cUSUARIO\u003e",
+                                         "description":  "Usuario MySQL REMOTO"
+                                     },
+                                     {
+                                         "name":  "DB_MYSQL_PASSWORD",
+                                         "value":  "\u003cPASSWORD\u003e",
+                                         "description":  "Password MySQL REMOTO"
+                                     }
+                                 ]
+               }
 }

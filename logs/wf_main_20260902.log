@@ -1,0 +1,98 @@
+[mi‚ 02/09/2026 12:50:14.93] Inicio: mi‚ 02/09/2026 12:50:14.93
+H2 ya esta arriba en puerto 9092
+[mi‚ 02/09/2026 12:50:15.05] HOP_HOME=D:\Eder\hop
+[mi‚ 02/09/2026 12:50:15.06] PROJECT_HOME=D:\Eder\workspace_etl_oefa\diego_etl_archetype
+[mi‚ 02/09/2026 12:50:15.06] Ejecutando D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf
+===[Environment Settings - hop-run.bat]===================================
+
+Java identified as "C:\Program Files\Java\jdk-21.0.11\bin\java"
+
+HOP_OPTIONS="-Xmx2048m" -DHOP_AUDIT_FOLDER=.\audit -DHOP_PLATFORM_OS=Windows -DHOP_PLATFORM_RUNTIME=Run -DHOP_AUTO_CREATE_CONFIG=Y --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/sun.nio.cs=ALL-UNNAMED --add-opens java.base/sun.security.action=ALL-UNNAMED --add-opens java.base/sun.util.calendar=ALL-UNNAMED --add-opens java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-exports java.base/sun.nio.ch=ALL-UNNAMED
+
+
+Consolidated parameters to pass to HopRun are
+--project=diego_etl_archetype   --file="D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf"   --level=Basic   --runconfig=local
+
+Command to start HopRun will be:
+"C:\Program Files\Java\jdk-21.0.11\bin\java" -classpath lib\core\*;lib\beam\*;lib\swt\win64\* -Djava.library.path=lib\core;lib\beam "-Xmx2048m" -DHOP_AUDIT_FOLDER=.\audit -DHOP_PLATFORM_OS=Windows -DHOP_PLATFORM_RUNTIME=Run -DHOP_AUTO_CREATE_CONFIG=Y --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/sun.nio.cs=ALL-UNNAMED --add-opens java.base/sun.security.action=ALL-UNNAMED --add-opens java.base/sun.util.calendar=ALL-UNNAMED --add-opens java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-exports java.base/sun.nio.ch=ALL-UNNAMED org.apache.hop.run.HopRun --project=diego_etl_archetype   --file="D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf"   --level=Basic   --runconfig=local
+
+===[Starting HopRun]=========================================================
+2026/09/02 12:50:22 - HopRun - Enabling project 'diego_etl_archetype'
+2026/09/02 12:50:23 - HopRun - Starting workflow: D:\Eder\workspace_etl_oefa\diego_etl_archetype\workflows\wf_main.hwf
+2026/09/02 12:50:23 - wf_main - Start of workflow execution
+2026/09/02 12:50:23 - wf_main - Starting action [Start]
+2026/09/02 12:50:23 - wf_main - Finished action [Start] (result=[true])
+2026/09/02 12:50:23 - wf_main - Starting action [Reset H2 clean]
+2026/09/02 12:50:23 - Reset H2 clean - Running on platform : Windows 11
+2026/09/02 12:50:23 - Reset H2 clean - Executing command : cmd.exe /C "D:\Eder\workspace_etl_oefa\diego_etl_archetype\h2\scripts\reset_and_create.bat"
+2026/09/02 12:50:23 - Reset H2 clean - (stdout) === Verificar H2 TCP (mem:csep) en puerto 9092 ===
+2026/09/02 12:50:23 - Reset H2 clean - (stdout) H2 OK puerto 9092
+2026/09/02 12:50:23 - Reset H2 clean - (stdout) === Aplicar DDL (sql\00_reset.sql) ===
+2026/09/02 12:50:24 - Reset H2 clean - (stdout) === Aplicar DDL (sql\01_schema.sql) ===
+2026/09/02 12:50:24 - Reset H2 clean - (stdout) === Reset+Create OK ===
+2026/09/02 12:50:24 - Reset H2 clean - (stdout) Pipelines / R usan: jdbc:h2:tcp://localhost:9092/mem:csep;DB_CLOSE_DELAY=-1;MODE=Oracle;DATABASE_TO_UPPER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_RECONNECT=TRUE
+2026/09/02 12:50:24 - wf_main - Finished action [Reset H2 clean] (result=[true])
+2026/09/02 12:50:24 - wf_main - Starting action [Python create STG]
+2026/09/02 12:50:24 - Python create STG - Running on platform : Windows 11
+2026/09/02 12:50:24 - Python create STG - Executing command : cmd.exe /C "D:\Eder\workspace_etl_oefa\diego_etl_archetype\python\run_create_stg.bat"
+2026/09/02 12:50:28 - Python create STG - (stdout) STG_ORA_ACCIONES: 57 columnas (oracle)
+2026/09/02 12:50:28 - Python create STG - (stdout) STG_ORA_ADMINUF: 26 columnas (oracle)
+2026/09/02 12:50:28 - Python create STG - (stdout) STG_ORA_DOCUMENTOS: 32 columnas (oracle)
+2026/09/02 12:50:28 - Python create STG - (stdout) escrito: h2\sql\02_stg.sql
+2026/09/02 12:50:28 - Python create STG - (stdout) H2 CREATE STG_ORA_ACCIONES
+2026/09/02 12:50:28 - Python create STG - (stdout) H2 CREATE STG_ORA_ADMINUF
+2026/09/02 12:50:28 - Python create STG - (stdout) H2 CREATE STG_ORA_DOCUMENTOS
+2026/09/02 12:50:28 - Python create STG - (stdout) aplicado H2: 3 tablas
+2026/09/02 12:50:28 - wf_main - Finished action [Python create STG] (result=[true])
+2026/09/02 12:50:28 - wf_main - Starting action [Load Acciones]
+2026/09/02 12:50:28 - Load Acciones - Using run configuration [local]
+2026/09/02 12:50:28 - pl_stage_acciones - Executing this pipeline using the Local Pipeline Engine with run configuration 'local'
+2026/09/02 12:50:28 - pl_stage_acciones - Execution started for pipeline [pl_stage_acciones]
+2026/09/02 12:50:29 - Table output H2.0 - Connected to database [h2] (commit=5000)
+2026/09/02 12:52:00 - Table input Oracle.0 - Finished reading query, closing connection.
+2026/09/02 12:52:00 - Table input Oracle.0 - Finished processing (I=59482, O=0, R=0, W=59482, U=0, E=0)
+2026/09/02 12:52:01 - Table output H2.0 - Finished processing (I=0, O=59482, R=59482, W=59482, U=0, E=0)
+2026/09/02 12:52:01 - pl_stage_acciones - Pipeline duration : 92.447 seconds [  1' 32.447" ]
+2026/09/02 12:52:01 - wf_main - Finished action [Load Acciones] (result=[true])
+2026/09/02 12:52:01 - pl_stage_acciones - Execution finished on a local pipeline engine with run configuration 'local'
+2026/09/02 12:52:01 - wf_main - Starting action [Load AdminUF]
+2026/09/02 12:52:01 - Load AdminUF - Using run configuration [local]
+2026/09/02 12:52:01 - pl_stage_adminuf - Executing this pipeline using the Local Pipeline Engine with run configuration 'local'
+2026/09/02 12:52:01 - pl_stage_adminuf - Execution started for pipeline [pl_stage_adminuf]
+2026/09/02 12:52:01 - Table output H2.0 - Connected to database [h2] (commit=5000)
+2026/09/02 12:52:03 - Table input Oracle.0 - Finished reading query, closing connection.
+2026/09/02 12:52:03 - Table input Oracle.0 - Finished processing (I=54642, O=0, R=0, W=54642, U=0, E=0)
+2026/09/02 12:52:04 - Table output H2.0 - Finished processing (I=0, O=54642, R=54642, W=54642, U=0, E=0)
+2026/09/02 12:52:04 - pl_stage_adminuf - Pipeline duration : 2.753 seconds [  2.753" ]
+2026/09/02 12:52:04 - wf_main - Finished action [Load AdminUF] (result=[true])
+2026/09/02 12:52:04 - pl_stage_adminuf - Execution finished on a local pipeline engine with run configuration 'local'
+2026/09/02 12:52:04 - wf_main - Starting action [Load Documentos]
+2026/09/02 12:52:04 - Load Documentos - Using run configuration [local]
+2026/09/02 12:52:04 - pl_stage_documentos - Executing this pipeline using the Local Pipeline Engine with run configuration 'local'
+2026/09/02 12:52:04 - pl_stage_documentos - Execution started for pipeline [pl_stage_documentos]
+2026/09/02 12:52:04 - Table output H2.0 - Connected to database [h2] (commit=5000)
+2026/09/02 12:52:45 - Table input Oracle.0 - Finished reading query, closing connection.
+2026/09/02 12:52:45 - Table input Oracle.0 - Finished processing (I=731303, O=0, R=0, W=731303, U=0, E=0)
+2026/09/02 12:52:45 - Table output H2.0 - Finished processing (I=0, O=731303, R=731303, W=731303, U=0, E=0)
+2026/09/02 12:52:45 - pl_stage_documentos - Pipeline duration : 41.235 seconds [ 41.235" ]
+2026/09/02 12:52:45 - pl_stage_documentos - Execution finished on a local pipeline engine with run configuration 'local'
+2026/09/02 12:52:45 - wf_main - Finished action [Load Documentos] (result=[true])
+2026/09/02 12:52:45 - wf_main - Starting action [Run R]
+2026/09/02 12:52:45 - Run R - Running on platform : Windows 11
+2026/09/02 12:52:45 - Run R - Executing command : cmd.exe /C "D:\Eder\workspace_etl_oefa\diego_etl_archetype\r\run_main.bat"
+2026/09/02 12:52:45 - Run R - (stdout) Usando R: C:\Program Files\R\R-4.5.2\bin\Rscript.exe
+2026/09/02 12:53:38 - Run R - ERROR: (stderr) Acciones: 59482 x 20
+2026/09/02 12:53:38 - Run R - ERROR: (stderr) Documentos: 731303 x 3
+2026/09/02 12:53:38 - Run R - ERROR: (stderr) AdminUF: 54642 x 7
+2026/09/02 12:53:38 - Run R - ERROR: (stderr) Logica: acciones_pin.R
+2026/09/02 12:53:39 - Run R - ERROR: (stderr) Joining with `by = join_by(IDUF_SIG)`
+2026/09/02 12:53:39 - Run R - ERROR: (stderr) Salida de logica: 46555 filas x 16 columnas
+2026/09/02 12:53:40 - Run R - ERROR: (stderr) Oracle out: jdbc:oracle:thin:@//10.6.0.15:1532/dvoefacore user=REPOCSEP schema=REPOCSEP
+2026/09/02 12:54:09 - Run R - ERROR: (stderr) RPT_ACCIONES_UBIGEO: 46555 filas -> REPOCSEP.RPT_ACCIONES_UBIGEO (46555 en BD)
+2026/09/02 12:54:09 - Run R - ERROR: (stderr) Listo (H2 STG_* -> logica -> Oracle).
+2026/09/02 12:54:09 - wf_main - Finished action [Run R] (result=[true])
+2026/09/02 12:54:09 - wf_main - Starting action [Success]
+2026/09/02 12:54:09 - wf_main - Finished action [Success] (result=[true])
+2026/09/02 12:54:09 - wf_main - Workflow execution finished
+2026/09/02 12:54:09 - wf_main - Workflow duration : 226.673 seconds [  3' 46" ]
+HopRun exit.

@@ -14,7 +14,11 @@ if %ERRORLEVEL%==0 (
 )
 
 echo Levantando H2 TCP+WEB...
-start "H2-Server" /MIN java -cp "%H2_JAR%" org.h2.tools.Server -tcp -web -webPort 8082 -tcpPort %H2_PORT% -ifNotExists >nul 2>&1
+REM Desacoplar el server java del pipe de stdout con el que Hop detecta el fin
+REM del paso. Si el java hereda ese pipe, hop-run espera el EOF para siempre
+REM (paso colgado) y nunca se escribe Oracle. El "& exit" hace que el cmd /c
+REM hijo cierre su copia del pipe justo despues de lanzar java.
+start "H2-Server" /MIN cmd /c "java -cp ""%H2_JAR%"" org.h2.tools.Server -tcp -web -webPort 8082 -tcpPort %H2_PORT% -ifNotExists > h2.out.log 2>&1 & exit"
 
 set /a _i=0
 :wait_loop
