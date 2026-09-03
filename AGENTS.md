@@ -1,7 +1,7 @@
 # AGENTS.md — diego_etl_archetype (Acciones PIN)
 
 ETL **Acciones PIN** sobre el arquetipo OEFA Hop: `inputs.yaml` + Python DDL `STG_*` →
-Hop extract → H2 → R → Oracle `RPT_ACCIONES_UBIGEO`.
+Hop extract → H2 → R → MySQL `RPT_ACCIONES_UBIGEO` (gappsdb).
 
 **Skill:** [`.agents/skills/oefa-hop-etl/SKILL.md`](.agents/skills/oefa-hop-etl/SKILL.md)
 
@@ -13,7 +13,7 @@ inputs.yaml (3 vistas SISUD)
   → pl_stage_{acciones,adminuf,documentos}.hpl
   → H2 mem:csep
   → r/logica/acciones_pin.R
-  → Oracle APP|REPOCSEP.RPT_ACCIONES_UBIGEO
+  → MySQL gappsdb.RPT_ACCIONES_UBIGEO  (10.1.1.217:3306, DB_MYSQL_*)
 ```
 
 | Path | Rol |
@@ -39,7 +39,7 @@ inputs.yaml (3 vistas SISUD)
 |---|-------|--------|
 | OS | Linux (`SCRIPT_EXT=sh`) | Windows (`SCRIPT_EXT=bat`) |
 | Input | `DB_ORA_SISUD_*` | `DB_ORA_SISUD_*` |
-| Output | `DB_ORA_REPO_*` schema `APP` | `DB_ORA_REPO_*` schema `REPOCSEP` |
+| Output | `DB_MYSQL_*` (`gappsdb` 10.1.1.217:3306) | `DB_MYSQL_*` (mismo MySQL que local) |
 | H2 | `mem:csep` :9092 | igual |
 
 Credenciales: actualizar primero `docs/conexion-*.txt`, luego `environments/*` y el
@@ -85,7 +85,7 @@ No programar el `Start` del `.hwf` en el GUI (`schedulerType=0`); usar Task Sche
 3. Fuentes nuevas: `inputs.yaml` → `wf_create_stg` → `pl_stage_*.hpl` → `lecturas` en `leer_h2.R`.
 4. No poner `STG_*` en `h2/sql/01_schema.sql` (opción B: Python después del reset).
 5. Un solo `.R` en `r/logica/`; no tocar pristine salvo pedido explícito.
-6. Salida Oracle legado (`escribir_oracle` + `DB_ORA_REPO_*`); no MySQL/Excel para este ETL.
+6. Salida a MySQL `RPT_ACCIONES_UBIGEO` (`escribir_oracle.R` + `DB_MYSQL_*`); no Oracle ni Excel para este ETL.
 7. Mantener pares `.sh` / `.bat` en sync.
 8. `options(java.parameters=...)` antes de RJDBC.
 9. No commitear `h2/sql/02_stg.sql`, `__pycache__/`, `.venv/` (gitignore). Credenciales van en texto plano (patrón del repo); no propagar fuera.
@@ -94,7 +94,7 @@ No programar el `Start` del `.hwf` en el GUI (`schedulerType=0`); usar Task Sche
 
 - H2 in-memory: cada reset borra la BD; Python debe recrear `STG_*` en cada corrida.
 - Si tras stop sale `H2 ya esta arriba en puerto 9092`, hay Java/H2 huérfano: matar proceso y rerun (o `h2/scripts/stop_h2.*`).
-- Metadata Hop: `oracle_sisud` (input), `h2` (staging). Write Oracle solo en R.
+- Metadata Hop: `oracle_sisud` (input), `h2` (staging). Write MySQL solo en R (`mysql`).
 - Heap R `-Xmx6g` (Documentos ~724k filas).
 - En log Hop, `message()` de R sale como `[Error]` en stderr aunque `result=[true]`.
 - `pl_demo.hpl` es legado del arquetipo; la corrida usa `pl_stage_*`.

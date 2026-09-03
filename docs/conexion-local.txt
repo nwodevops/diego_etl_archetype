@@ -14,3 +14,14 @@ ORACLE_XE_PORT=1524
 ORACLE_XE_SYS_PASSWORD=OraclePwd2026
 ORACLE_XE_USER=app
 ORACLE_XE_PASSWORD=app2026
+
+#new input 
+
+#output MySQL (local y remote usan el mismo)
+Hot : 10.1.1.217
+Database : gappsdb
+Port: 3306
+User : gapps
+Pass: Knjux4a9tJCbrly!
+
+jdbc:mysql://10.1.1.217:3306/gappsdb

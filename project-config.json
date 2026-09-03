@@ -106,36 +106,36 @@
                                          "value":  "REPOCSEP",
                                          "description":  "Schema Oracle REPOCSEP Remote"
                                      },
-                                     {
-                                         "name":  "DB_MYSQL_URL",
-                                         "value":  "jdbc:mysql://\u003cHOST\u003e:\u003cPUERTO\u003e/\u003cDB\u003e",
-                                         "description":  "JDBC URL MySQL REMOTO (completar si se usa)"
-                                     },
-                                     {
-                                         "name":  "DB_MYSQL_HOST",
-                                         "value":  "\u003cHOST\u003e",
-                                         "description":  "Host MySQL REMOTO"
-                                     },
-                                     {
-                                         "name":  "DB_MYSQL_PORT",
-                                         "value":  "\u003cPUERTO\u003e",
-                                         "description":  "Puerto MySQL REMOTO"
-                                     },
-                                     {
-                                         "name":  "DB_MYSQL_DATABASE",
-                                         "value":  "\u003cDB\u003e",
-                                         "description":  "Database MySQL REMOTO"
-                                     },
-                                     {
-                                         "name":  "DB_MYSQL_USERNAME",
-                                         "value":  "\u003cUSUARIO\u003e",
-                                         "description":  "Usuario MySQL REMOTO"
-                                     },
-                                     {
-                                         "name":  "DB_MYSQL_PASSWORD",
-                                         "value":  "\u003cPASSWORD\u003e",
-                                         "description":  "Password MySQL REMOTO"
-                                     }
+                                      {
+                                          "name":  "DB_MYSQL_URL",
+                                          "value":  "jdbc:mysql://10.1.1.217:3306/gappsdb",
+                                          "description":  "JDBC URL MySQL salida (remote = local)"
+                                      },
+                                      {
+                                          "name":  "DB_MYSQL_HOST",
+                                          "value":  "10.1.1.217",
+                                          "description":  "Host MySQL salida"
+                                      },
+                                      {
+                                          "name":  "DB_MYSQL_PORT",
+                                          "value":  "3306",
+                                          "description":  "Puerto MySQL salida"
+                                      },
+                                      {
+                                          "name":  "DB_MYSQL_DATABASE",
+                                          "value":  "gappsdb",
+                                          "description":  "Database MySQL salida"
+                                      },
+                                      {
+                                          "name":  "DB_MYSQL_USERNAME",
+                                          "value":  "gapps",
+                                          "description":  "Usuario MySQL salida"
+                                      },
+                                      {
+                                          "name":  "DB_MYSQL_PASSWORD",
+                                          "value":  "Knjux4a9tJCbrly!",
+                                          "description":  "Password MySQL salida"
+                                      }
                                  ]
                }
 }

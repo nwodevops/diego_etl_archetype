@@ -5,7 +5,7 @@
 #   1. SETUP   : heap JVM + librerias + root
 #   2. ENTRADA : io/leer_h2.R              -> Acciones / Documentos / AdminUF
 #   3. LOGICA  : unico .R en r/logica/     -> Acciones_Ubigeo
-#   4. SALIDA  : io/escribir_oracle.R      -> RPT_ACCIONES_UBIGEO (DB_ORA_REPO_*)
+#   4. SALIDA  : io/escribir_oracle.R      -> RPT_ACCIONES_UBIGEO (DB_MYSQL_*)
 #
 # Contrato: r/CONTRATO.md
 # Uso: Rscript r/main.R  (o r/run_main.sh|.bat desde Hop)
@@ -40,6 +40,7 @@ script_path <- if (length(file_arg)) {
 root <- normalizePath(file.path(dirname(script_path), ".."), mustWork = TRUE)
 
 ojdbc_jar <- file.path(root, "lib", "ojdbc11.jar")
+mysql_jar <- file.path(root, "lib", "mysql-connector-j-8.2.0.jar")
 
 # ---------------------------------------------------------------------------
 # 2. ENTRADA (H2 STG_* -> data.frames en el entorno)
@@ -72,9 +73,9 @@ df_salida$FE_CARGA <- Sys.time()
 message("Salida de logica: ", nrow(df_salida), " filas x ", ncol(df_salida), " columnas")
 
 # ---------------------------------------------------------------------------
-# 4. SALIDA (df -> Oracle REPOCSEP/APP; skip si placeholders)
+# 4. SALIDA (df -> MySQL RPT_ACCIONES_UBIGEO; skip si placeholders)
 # ---------------------------------------------------------------------------
 source(file.path(root, "r", "io", "escribir_oracle.R"))
-escribir_oracle(df_salida, ojdbc_jar = ojdbc_jar, root = root)
+escribir_oracle(df_salida, mysql_jar = mysql_jar, root = root)
 
-message("Listo (H2 STG_* -> logica -> Oracle).")
+message("Listo (H2 STG_* -> logica -> MySQL).")

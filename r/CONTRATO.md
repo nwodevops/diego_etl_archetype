@@ -6,7 +6,7 @@ I/O genérico; lógica solo en `r/logica/` (un único `.R`).
 r/main.R            orquesta: SETUP → io/leer_h2.R → logica/ → io/escribir_oracle.R
 r/io/leer_h2.R      ENTRADA: H2 STG_* → Acciones / Documentos / AdminUF
 r/logica/           LOGICA: acciones_pin.R (pristine)
-r/io/escribir_oracle.R  SALIDA: Acciones_Ubigeo → RPT_ACCIONES_UBIGEO
+r/io/escribir_oracle.R  SALIDA: Acciones_Ubigeo → RPT_ACCIONES_UBIGEO (MySQL)
 ```
 
 Staging declarado en `inputs.yaml` → Python DDL → Hop extract → tablas H2:
@@ -33,8 +33,9 @@ UF_SIG_ID, UF_TXESTADO, UF_UBIGEO_INAF, TXUBIGEO_INEI, UF_DPTO, UF_PROV, UF_DIST
 
 ## Salida
 
-Data.frame **`Acciones_Ubigeo`** (`SALIDA_DF` en `main.R`) → Oracle
-`APP|REPOCSEP.RPT_ACCIONES_UBIGEO` vía `DB_ORA_REPO_*` (+ `DB_ORA_REPO_SCHEMA`).
+Data.frame **`Acciones_Ubigeo`** (`SALIDA_DF` en `main.R`) → MySQL
+`RPT_ACCIONES_UBIGEO` en `gappsdb` (10.1.1.217:3306) vía `DB_MYSQL_*`.
+Local y remote comparten el mismo MySQL.
 
 15 columnas de negocio + **`FE_CARGA`** (sello de corrida, lo añade `r/main.R`
 con `Sys.time()`; no está en la lógica pristine):
@@ -43,8 +44,8 @@ TXCOORDINACION, SUBSECTOR, TXCUC, FEFIN, IDADMINISTRADO, IDUF_SIG,
 TXTIPSUP, TXFUENTE, TXACCION, FGSUP_ORIENTATIVA, TXUBIGEO_INEI, TXUBIGEO_INAF,
 TXDEPARTAMENTO, TXPROVINCIA, TXDISTRITO, FE_CARGA.
 
-DDL: `docs/rpt_acciones_ubigeo.sql` / `docs/rpt_acciones_ubigeo_local.sql`.
-Tablas ya existentes: `ALTER TABLE ... ADD (FE_CARGA DATE)` (ver comentarios en el DDL).
+DDL: `docs/rpt_acciones_ubigeo.sql` / `docs/rpt_acciones_ubigeo_local.sql` (MySQL).
+Tabla existente: se usa TRUNCATE + INSERT; no requiere ALTER.
 
 ## Reglas
 

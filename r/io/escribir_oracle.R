@@ -1,51 +1,48 @@
 # =============================================================================
 # io/escribir_oracle.R
-# SALIDA: data.frame -> Oracle RPT_ACCIONES_UBIGEO (TRUNCATE + INSERT)
+# SALIDA: data.frame -> MySQL RPT_ACCIONES_UBIGEO (TRUNCATE + INSERT)
 #
-# Conexion: DB_ORA_REPO_* (+ DB_ORA_REPO_SCHEMA) desde project-config.json.
+# Conexion: DB_MYSQL_* desde project-config.json (host, puerto, db, user, pass).
 # Si url/user/password son placeholders "<...>", omite el write (smoke H2-only).
 #
 # Uso:
 #   source(file.path(root, "r", "io", "escribir_oracle.R"))
-#   escribir_oracle(df, ojdbc_jar = ojdbc_jar, root = root)
+#   escribir_oracle(df, mysql_jar = mysql_jar, root = root)
 # =============================================================================
 
 escribir_oracle <- function(df,
                             tabla = "RPT_ACCIONES_UBIGEO",
-                            esquema = NULL,
+                            database = NULL,
                             url = NULL,
                             user = NULL,
                             password = NULL,
-                            ojdbc_jar,
+                            mysql_jar,
                             root = NULL) {
-  if (missing(ojdbc_jar) || !file.exists(ojdbc_jar)) {
-    stop("No se encuentra ojdbc_jar: ", ojdbc_jar)
+  if (missing(mysql_jar) || !file.exists(mysql_jar)) {
+    stop("No se encuentra mysql_jar: ", mysql_jar)
   }
 
   if (!is.null(root)) {
     source(file.path(root, "r", "io", "leer_config.R"), local = TRUE)
     vars <- leer_hop_vars(root)
-    if (is.null(url)) url <- hop_var(vars, "DB_ORA_REPO_URL")
-    if (is.null(user)) user <- hop_var(vars, "DB_ORA_REPO_USERNAME")
-    if (is.null(password)) password <- hop_var(vars, "DB_ORA_REPO_PASSWORD")
-    if (is.null(esquema)) {
-      esquema <- hop_var(vars, "DB_ORA_REPO_SCHEMA", default = toupper(user))
-    }
+    if (is.null(url)) url <- hop_var(vars, "DB_MYSQL_URL")
+    if (is.null(user)) user <- hop_var(vars, "DB_MYSQL_USERNAME")
+    if (is.null(password)) password <- hop_var(vars, "DB_MYSQL_PASSWORD")
+    if (is.null(database)) database <- hop_var(vars, "DB_MYSQL_DATABASE")
   } else {
     if (is.null(url) || is.null(user) || is.null(password)) {
       stop("Sin root ni url/user/password: pasa root= o credenciales explicitas")
     }
-    if (is.null(esquema)) esquema <- toupper(user)
   }
 
   if (grepl("^<", url) || grepl("^<", user) || grepl("^<", password)) {
-    message("AVISO: credenciales Oracle placeholder -> se OMITE el write (tabla ",
-            esquema, ".", tabla, ").")
+    message("AVISO: credenciales MySQL placeholder -> se OMITE el write (tabla ",
+            tabla, ").")
     message("Resultado en memoria: ", nrow(df), " filas x ", ncol(df), " columnas")
     return(invisible(nrow(df)))
   }
 
-  message("Oracle out: ", url, " user=", user, " schema=", esquema)
+  message("MySQL out: ", url, " user=", user, " db=", ifelse(is.null(database), "?", database))
 
   out <- df
   out[] <- lapply(out, function(x) if (is.factor(x)) as.character(x) else x)
@@ -56,18 +53,17 @@ escribir_oracle <- function(df,
   }
   out <- as.data.frame(out, stringsAsFactors = FALSE)
 
-  drv_ora <- RJDBC::JDBC("oracle.jdbc.OracleDriver", ojdbc_jar)
-  con <- DBI::dbConnect(drv_ora, url, user, password)
+  drv_mysql <- RJDBC::JDBC("com.mysql.cj.jdbc.Driver", mysql_jar)
+  con <- DBI::dbConnect(drv_mysql, url, user, password)
   on.exit(try(DBI::dbDisconnect(con), silent = TRUE), add = TRUE)
 
-  RJDBC::dbSendUpdate(con, "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'")
-  RJDBC::dbSendUpdate(con, paste("TRUNCATE TABLE ", esquema, ".", tabla, sep = ""))
+  RJDBC::dbSendUpdate(con, paste("TRUNCATE TABLE ", tabla, sep = ""))
   DBI::dbWriteTable(con, tabla, out, overwrite = FALSE, append = TRUE, row.names = FALSE)
 
-  n_out <- DBI::dbGetQuery(con, paste("SELECT COUNT(*) AS N FROM ", esquema, ".", tabla, sep = ""))$N
+  n_out <- DBI::dbGetQuery(con, paste("SELECT COUNT(*) AS N FROM ", tabla, sep = ""))$N
   DBI::dbDisconnect(con)
   on.exit(NULL)
 
-  message(tabla, ": ", nrow(out), " filas -> ", esquema, ".", tabla, " (", n_out, " en BD)")
+  message(tabla, ": ", nrow(out), " filas -> ", tabla, " (", n_out, " en BD)")
   invisible(n_out)
 }

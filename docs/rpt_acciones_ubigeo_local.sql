@@ -1,76 +1,59 @@
 -- =============================================================================
--- APP — tabla destino local Acciones_Ubigeo (PIN) para RPT_ACCIONES_UBIGEO
--- Instancia: localhost:1524 / BD_CURSOR
--- Usuario  : app
--- JDBC     : jdbc:oracle:thin:@//localhost:1524/BD_CURSOR
+-- RPT_ACCIONES_UBIGEO — tabla destino Acciones_Ubigeo (PIN) en MySQL
+-- Instancia: 10.1.1.217:3306 / gappsdb (local tambien usa este mismo MySQL)
+-- Usuario  : gapps
+-- JDBC     : jdbc:mysql://10.1.1.217:3306/gappsdb
 --
--- Crear conectado como app. r/main.R hace TRUNCATE + INSERT (no CREATE).
+-- Crear manualmente conectado como gapps (la DB gappsdb ya esta activa en la
+-- URL). El script R r/main.R hace TRUNCATE + INSERT (no CREATE).
+--
+-- NOTA: local y remote comparten el MISMO MySQL 10.1.1.217/gappsdb.
+-- Las columnas textuales usan VARCHAR(255): dan margen sobre el max real
+-- (~82 chars en TXFUENTE) y caben en el limite de fila de InnoDB con utf8mb4
+-- (65535 bytes) sin llegar a TEXT, permitiendo indexar TXCUC/IDUF_SIG.
 -- =============================================================================
 
--- Requiere (como SYS): ALTER USER APP DEFAULT TABLESPACE USERS;
---                     ALTER USER APP QUOTA UNLIMITED ON USERS;
--- Evita ORA-01950 (sin privilegios en SYSTEM).
+CREATE TABLE RPT_ACCIONES_UBIGEO (
+    TXCOORDINACION      VARCHAR(255),
+    SUBSECTOR           VARCHAR(255),
+    TXCUC               VARCHAR(255),
+    FEFIN               DATETIME,
+    IDADMINISTRADO      VARCHAR(255),
+    IDUF_SIG            VARCHAR(255),
+    TXTIPSUP            VARCHAR(255),
+    TXFUENTE            VARCHAR(255),
+    TXACCION            VARCHAR(255),
+    FGSUP_ORIENTATIVA   VARCHAR(255),
+    TXUBIGEO_INEI       VARCHAR(255),
+    TXUBIGEO_INAF       VARCHAR(255),
+    TXDEPARTAMENTO      VARCHAR(255),
+    TXPROVINCIA         VARCHAR(255),
+    TXDISTRITO          VARCHAR(255),
+    FE_CARGA            DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE APP.RPT_ACCIONES_UBIGEO (
-    TXCOORDINACION      VARCHAR2(4000),
-    SUBSECTOR           VARCHAR2(4000),
-    TXCUC               VARCHAR2(4000),
-    FEFIN               DATE,
-    IDADMINISTRADO      VARCHAR2(4000),
-    IDUF_SIG            VARCHAR2(4000),
-    TXTIPSUP            VARCHAR2(4000),
-    TXFUENTE            VARCHAR2(4000),
-    TXACCION            VARCHAR2(4000),
-    FGSUP_ORIENTATIVA   VARCHAR2(4000),
-    TXUBIGEO_INEI       VARCHAR2(4000),
-    TXUBIGEO_INAF       VARCHAR2(4000),
-    TXDEPARTAMENTO      VARCHAR2(4000),
-    TXPROVINCIA         VARCHAR2(4000),
-    TXDISTRITO          VARCHAR2(4000),
-    FE_CARGA            DATE
-) TABLESPACE USERS;
+-- Comentarios (MySQL no soporta COMMENT ON TABLE/COLUMN como Oracle):
+-- TXCOORDINACION     Coordinación del OEFA (normalizada; sin prefijo "COORDINACIÓN DE")
+-- SUBSECTOR          Código de subsector: MIN, HID, ELE, IND, PES, AGR, CAM, RES, EDU, JUS, CUL, VCS
+-- TXCUC              Código Único de Control (CUC) de la supervisión
+-- FEFIN              Fecha fin de la supervisión
+-- IDADMINISTRADO     RUC o identificador del administrado supervisado
+-- IDUF_SIG           Identificador de la Unidad Fiscalizadora (seguimiento)
+-- TXTIPSUP           Tipo de supervisión (orientativa u otra)
+-- TXFUENTE           Fuente o denuncia que originó la supervisión
+-- TXACCION           Tipo de acción: IN SITU (presencial) o EN GABINETE
+-- FGSUP_ORIENTATIVA  Flag supervisión orientativa: 1 = sí, 0 = no
+-- TXUBIGEO_INEI      Código INEI del distrito del punto de intervención
+-- TXUBIGEO_INAF      Código INAF del distrito del punto de intervención
+-- TXDEPARTAMENTO     Departamento de la intervención
+-- TXPROVINCIA        Provincia de la intervención
+-- TXDISTRITO         Distrito de la intervención
+-- FE_CARGA           Fecha y hora de carga del registro (sello de corrida ETL)
 
-COMMENT ON TABLE  APP.RPT_ACCIONES_UBIGEO
-    IS 'Reporte de acciones de supervisión por ubicación geográfica.';
+CREATE INDEX IDX_RPT_ACC_UBI_CUC   ON RPT_ACCIONES_UBIGEO (TXCUC);
+CREATE INDEX IDX_RPT_ACC_UBI_FEFIN ON RPT_ACCIONES_UBIGEO (FEFIN);
+CREATE INDEX IDX_RPT_ACC_UBI_IDUF  ON RPT_ACCIONES_UBIGEO (IDUF_SIG);
+CREATE INDEX IDX_RPT_ACC_UBI_CARGA ON RPT_ACCIONES_UBIGEO (FE_CARGA);
 
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXCOORDINACION
-    IS 'Coordinación del OEFA (normalizada; sin prefijo "COORDINACIÓN DE")';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.SUBSECTOR
-    IS 'Código de subsector: MIN, HID, ELE, IND, PES, AGR, CAM, RES, EDU, JUS, CUL, VCS';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXCUC
-    IS 'Código Único de Control (CUC) de la supervisión';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.FEFIN
-    IS 'Fecha fin de la supervisión';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.IDADMINISTRADO
-    IS 'RUC o identificador del administrado supervisado';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.IDUF_SIG
-    IS 'Identificador de la Unidad Fiscalizadora (seguimiento)';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXTIPSUP
-    IS 'Tipo de supervisión (orientativa u otra)';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXFUENTE
-    IS 'Fuente o denuncia que originó la supervisión';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXACCION
-    IS 'Tipo de acción: IN SITU (presencial) o EN GABINETE';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.FGSUP_ORIENTATIVA
-    IS 'Flag supervisión orientativa: 1 = sí, 0 = no';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXUBIGEO_INEI
-    IS 'Código INEI del distrito del punto de intervención';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXUBIGEO_INAF
-    IS 'Código INAF del distrito del punto de intervención';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXDEPARTAMENTO
-    IS 'Departamento de la intervención';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXPROVINCIA
-    IS 'Provincia de la intervención';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.TXDISTRITO
-    IS 'Distrito de la intervención';
-COMMENT ON COLUMN APP.RPT_ACCIONES_UBIGEO.FE_CARGA
-    IS 'Fecha y hora de carga del registro (sello de corrida ETL)';
-
-CREATE INDEX IDX_RPT_ACC_UBI_CUC ON APP.RPT_ACCIONES_UBIGEO (TXCUC) TABLESPACE USERS;
-CREATE INDEX IDX_RPT_ACC_UBI_FEFIN ON APP.RPT_ACCIONES_UBIGEO (FEFIN) TABLESPACE USERS;
-CREATE INDEX IDX_RPT_ACC_UBI_IDUF ON APP.RPT_ACCIONES_UBIGEO (IDUF_SIG) TABLESPACE USERS;
-CREATE INDEX IDX_RPT_ACC_UBI_CARGA ON APP.RPT_ACCIONES_UBIGEO (FE_CARGA) TABLESPACE USERS;
-
--- Si la tabla ya existe (migración):
--- ALTER TABLE APP.RPT_ACCIONES_UBIGEO ADD (FE_CARGA DATE);
--- CREATE INDEX IDX_RPT_ACC_UBI_CARGA ON APP.RPT_ACCIONES_UBIGEO (FE_CARGA) TABLESPACE USERS;
+-- Verificación rápida:
+-- SELECT COUNT(*), MAX(FE_CARGA) FROM RPT_ACCIONES_UBIGEO;

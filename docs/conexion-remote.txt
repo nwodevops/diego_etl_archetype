@@ -13,3 +13,13 @@ Database : dvoefacore
 Port: 1532
 User : REPOCSEP
 Pass: desarrollo24
+
+
+#output MySQL (local y remote usan el mismo)
+Hot : 10.1.1.217
+Database : gappsdb
+Port: 3306
+User : gapps
+Pass: Knjux4a9tJCbrly!
+
+jdbc:mysql://10.1.1.217:3306/gappsdb
